@@ -1,3 +1,4 @@
+# ![DataShield AI](/banner.png)
 # DataShield AI: Real-time Automated AI Enhanced Policy Based Encryption
 
 ## Introduction
@@ -20,12 +21,12 @@ The configuration object contains the following properties:
 const { DataShield } = require('@lokdon/datashield');
 const dataShield = new DataShield({
     connection: {
-        client: 'mysql',
+        client: '<db_driver eg. mysql>',
         connection: {
-            host: 'localhost',
-            user: 'root',
-            password: '',
-            database: 'mock5'
+            host: '<db-server eg. localhost>',
+            user: '<db-user eg. root>',
+            password: '<db-pass>',
+            database: '<schema-name>'
         }
     },
     token: "<Your API Key>"

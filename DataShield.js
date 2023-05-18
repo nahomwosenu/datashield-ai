@@ -22,7 +22,7 @@ class DataShield {
         let promise = new Promise((resolve, reject) => {
             const encryptedColumns = data;
 
-            const ecs = new ecsmid(tempToken);
+            const ecs = new ecsmid(this.token);
             const columnData = [];
             for (const column of this.encryptedColumns) {
                 if (data[column]) {
@@ -47,7 +47,7 @@ class DataShield {
     async decrypt(data) {
         console.log('###########################>decrypting data', data);
         return new Promise((resolve, reject) => {
-            const ecs = new ecsmid(tempToken);
+            const ecs = new ecsmid(this.token);
             const columnData = [];
             for (const column of this.encryptedColumns) {
                 if (data[column]) {
