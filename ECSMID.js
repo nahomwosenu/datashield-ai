@@ -1,9 +1,28 @@
+const axios = require('axios');
+const request = require('sync-request');
 module.exports = class ECSMID {
     constructor(token) {
         this.token = token;
         this.endpoint = "http://localhost:8000";
         this.https=require('https');
         this.http=require('http');
+    }
+    encryptString(data){
+        let result=this.apiCallSync(this.endpoint + "/v1/encrypt/generic", { "text": data });
+        return result.cipher_text;
+    }
+    decryptString(cipherText){
+        let result=this.apiCallSync(this.endpoint + "/v1/decrypt/generic", { "cipher_text": cipherText });
+        //console.log('decrypt response',result);
+        return result.text;
+    }
+    encryptArrayData(data=[]){
+        let result=this.apiCallSync(this.endpoint + "/v1/encrypt/array", { "array": data });
+        return result.data;
+    }
+    decryptArrayData(cipherData =[]){
+        let result=this.apiCallSync(this.endpoint + "/v1/decrypt/array", { "array": cipherData });
+        return result.data;
     }
     encryptGeneric = (data) => {
         return this.apiCall(this.endpoint + "/v1/encrypt/generic", { "text": data });
@@ -60,5 +79,29 @@ module.exports = class ECSMID {
         });
         // return the promise object
         return promise;
+    }
+
+    async apiCallAsync(endpoint, jsonData) {
+        let options = {
+            method: 'POST',
+            body: JSON.stringify(jsonData),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.token
+            }
+        };
+        const {data}=await axios.post(endpoint,JSON.stringify(jsonData),options);
+        return data;
+    }
+    apiCallSync(endpoint, jsonData){
+        const res=request('POST', endpoint,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.token
+            },
+            json: jsonData
+        });
+        //console.log("sync response",res);
+        return JSON.parse(res.getBody('utf8'));
     }
 }

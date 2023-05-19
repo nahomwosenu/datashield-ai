@@ -1,6 +1,6 @@
 {
   "name": "datashield",
-  "version": "1.0.0-beta",
+  "version": "1.0.1",
   "description": "DatashieldAI is an innovative, AI-driven post-quantum encryption technology that facilitates the automation of keyless encryption and decryption of data. It utilizes a unique encryption approach, which involves wrapping the encryption around the malware payload. This method effectively immobilizes the malware, preventing it from impacting the network or establishing contact with its command and control center. In addition, DatashieldAI deploys quantum encryption to immobilize payloads by encrypting them, thus preventing them from causing any harm to the host. Specifically designed for database encryption, DatashieldAI encrypts all incoming or ingress data streams, ensuring data security. The technology functions like a spider that immobilizes its prey by enveloping it with its web; similarly, DatashieldAI wraps its encryption around the malware payload to render it inert, preventing any damage to the network or communication with the command and control center.",
   "main": "index.js",
   "scripts": {
@@ -16,10 +16,12 @@
   "author": "LokDon, LLC",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.4.0",
     "knex": "^2.4.2",
     "mongodb": "^5.4.0",
-    "mongoose": "^7.1.1",
+    "mongoose": "7.1.2",
     "mysql": "^2.18.1",
+    "sync-request": "^6.1.0",
     "xmlhttprequest": "^1.8.0"
   }
 }

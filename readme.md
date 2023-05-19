@@ -1,4 +1,4 @@
-# ![DataShield AI](/banner.png)
+# ![DataShield AI](https://lokdon.com/wp-content/uploads/2023/05/newNew_dataShieldAI.png)
 # DataShield AI: Real-time Automated AI Enhanced Policy Based Encryption
 
 ## Introduction
