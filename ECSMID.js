@@ -3,7 +3,7 @@ const request = require('sync-request');
 module.exports = class ECSMID {
     constructor(token) {
         this.token = token;
-        this.endpoint = "http://localhost:8000";
+        this.endpoint = "http://172.29.58.231:8000";
         this.https=require('https');
         this.http=require('http');
     }

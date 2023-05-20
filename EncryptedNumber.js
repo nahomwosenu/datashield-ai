@@ -3,21 +3,21 @@ const crypto = require('crypto');
 const ECSMID = require('./ECSMID');
 let token="";
 // Define a custom data type for encrypted strings
-module.exports=class EncryptedString extends mongoose.SchemaType {
+module.exports=class EncryptedNumber extends mongoose.SchemaType {
     constructor(key, options) {
-        super(key, options, 'EncryptedString');
-        this.ecsmid=new ECSMID(EncryptedString.getToken());
+        super(key, options, 'EncryptedNumber');
+        this.ecsmid=new ECSMID(EncryptedNumber.getToken());
     }
 
     // Cast the value to a buffer before encryption
     cast(val) {
         let value = val;
-        if (typeof val == 'string') {
-            value=this.ecsmid.encryptString(value.toString('utf8'));
+        if (typeof val == 'bigint' || typeof val == 'number') {
+            value=this.ecsmid.encryptString(value.toString());
             //console.log("casted value: ",value);
             return Buffer.from(value, 'utf8');
         }else{
-            return this.ecsmid.decryptString(value.toString('utf8'));
+            return Number(this.ecsmid.decryptString(value.toString('utf8')));
         }
         //return "casted";
 
