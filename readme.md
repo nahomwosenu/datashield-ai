@@ -96,3 +96,141 @@ Performing DDL using datashield is straightforward
 // 
 ```
 
+# Using DataShield with nosql databases
+## Instructions for MongoDB
+DataShield uses mongoose to connect to MongoDB and perform schema related operations.
+
+1. To get started, simply install the datashield node package
+```shell
+npm install @lokdonllc/datashield
+```
+
+2. import the `DatashieldMongoose` module into your node script.
+
+```js
+const DatashieldMongoose=require('DataShieldMongoose');
+```
+
+3. Initialize Datashield with your API token
+```js
+const ds=new DatashieldMongoose(<YOUR_API_TOKEN>);
+```
+
+4. Connect to your MongoDB instance using mongoose & datshield
+```js
+ds.mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true, useUnifiedTopology: true});
+```
+You can use this `ds.mongoose` instance exactly as the mongoose library. 
+
+### Creating encrypted schemas
+Datashield provides encrypted schema types for mongoose. The following encrypted schema types have been tested well and available for production use in this release of datashield
+
+* **EncryptedString**: This type supports encryption & decryption of any string type including JS objects that implement `toString`
+* **EncryptedNumber**: This type supports encryption & decryption of `number` & `bigint` values. Note that it always returns a `number` type once decrypted
+* **EncryptedArray**: This type encrypts & decrypts javascript arrays. It currently only supports `String Arrays` with one dimension. e.g. `['apples','oranges', 'bananas']`
+
+For example, let's create a schema which demonstrates the use of all the above schema types:
+
+```js
+// complete steps 1 - 4 above, so you have ds.mongoose instance
+// let's create a schema for Travellers:
+// specify the fields we want to encrypt based on their types
+// make sure to avoid encrypting indexed values or properties which we later use for searching the object
+// in this case email is a property we want to use later for searching
+const travellersSchema = new ds.mongoose.Schema({
+    first_name: ds.EncryptedString,
+    last_name: ds.EncryptedString,
+    email: String,
+    gender: ds.EncryptedString,
+    tickets: ds.EncryptedArray,
+    age: ds.EncryptedNumber
+});
+
+// register the schema created above with mongoose
+const travellerModel = ds.mongoose.model('travellers',travellersSchema);
+
+// populate or prepare the traveller objects you want to save to db
+const travellersList=
+    [
+        {"first_name":"Beauregard","last_name":"Puddin","email":"bpuddin0@vimeo.com","gender":"Male","tickets":["847290838-0","478716182-2","175905738-X"],"age":74},
+        {"first_name":"Keith","last_name":"Roony","email":"kroony1@apple.com","gender":"Male","tickets":["953603471-9","039385190-7","258716913-5"],"age":91},
+        {"first_name":"Oliy","last_name":"O'Hoey","email":"oohoey2@purevolume.com","gender":"Female","tickets":["284428972-X","806887472-0","866496655-9"],"age":49},
+        {"first_name":"Ely","last_name":"Shurrocks","email":"eshurrocks3@delicious.com","gender":"Male","tickets":["662643198-6","446770507-4","786803969-8"],"age":30}
+];
+
+// iterate over each traveller from the list and save it to db
+// datashield automatically encrypts the values before saving it to db based on the types you specify
+for(let i=0;i<travellersList.length;i++){
+    new travellerModel(travellersList[i]).save()
+        .then((result)=>{})
+        .catch((err)=>console.log(err));
+}
+
+// To retreive the objects from the database you can use the mongoose provided functions
+// upon retreival, datashield automatically decrypts the values before returned in the promise
+travellerModel.find({})
+    .then((result)=>{
+        console.log(result);
+        for(let i=0;i<result.length;i++){
+            let travellerFromDB=result[i];
+            let traveller=travellersList[i];
+            assert.equal(travellerFromDB.first_name,traveller.first_name);
+            assert.equal(travellerFromDB.last_name,traveller.last_name);
+            assert.equal(travellerFromDB.gender,traveller.gender);
+            assert.deepEqual(travellerFromDB.tickets,traveller.tickets);
+            assert.equal(travellerFromDB.age,traveller.age);
+        }
+        console.log('all '+result.length+' tests passed');
+    })
+```
+
+
+
+
+
+### Using datashield with other schema types
+** If you intend to encrypt a different data type than the above, you can easly do that by converting the object you are encrypting to a json string before encrypting & parsing the json string after decrypted**
+example:
+```js
+// consider this is the object you want to encrypt using datasheild
+let person={
+    "first_name":"Brena",
+    "email":"bcuffin6@bbc.co.uk",
+    "age":45
+};
+// convert the personObject to string before encryption
+const personToString=JSON.stringify(person);
+
+// specify to use EncryptedString type for person in your schema
+const userSchema = new ds.mongoose.Schema({
+    person: ds.EncryptedString,
+    username: String,
+    password: ds.EncryptedString
+});
+
+//create the user model
+const userModel = ds.mongoose.model('User',userSchema);
+
+// create the user object
+const userObj= new userModel({
+    person: personToString,
+    username: 'user1',
+    password: '12345678'
+});
+
+// save the object to database
+// datashield automatically encrypts the person & password fields before saving it to database
+userObj.save();
+
+// fetch the user data
+userModel.findOne({username: 'user1'})
+    .then((result)=>{
+       // now that we have the decrypted user object
+       // convert the json string for person property of the user object
+        const user=result;
+        user.person=JSON.parse(result.person);
+    });
+
+```
+
+
