@@ -233,4 +233,18 @@ userModel.findOne({username: 'user1'})
 
 ```
 
+## Change logs:
+### Version `1.0.2`
+* added more schema types
+* added qucik-start-guide for mongoose
+* added test cases to test_mongoose.js
+
+### Version `1.0.1`
+* added sample data for test
+* added more tests, added custom schema type for mongoose
+### Version `1.0.0-beta`
+* added support for mongoose
+* added support for sql based databases
+* added test cases using mysql package
+
 
