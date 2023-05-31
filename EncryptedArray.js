@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
-const ECSMID = require('./ECSMID');
+const ECSMID = require('./LokDon');
 let token="";
 // Define a custom data type for encrypted strings
 module.exports=class EncryptedArray extends mongoose.SchemaType {
@@ -17,6 +17,7 @@ module.exports=class EncryptedArray extends mongoose.SchemaType {
             value=this.ecsmid.encryptArrayData(value);
             return Buffer.from(JSON.stringify(value),'utf8');
         }else{
+            //console.log('before dec',val.toString('utf8'));
             return this.ecsmid.decryptArrayData(JSON.parse(value.toString('utf8')));
         }
         //return "casted";
@@ -25,12 +26,12 @@ module.exports=class EncryptedArray extends mongoose.SchemaType {
 
     // Override the set method to encrypt the value before saving
     set = val => {
-        return "set_called";//this.encrypt(this.cast(val));
+        return "s";//this.encrypt(this.cast(val));
     };
 
     // Override the get method to decrypt the value after retrieving
     get(val){
-        return "get_called";//this.decrypt(val);
+        return "gd";//this.decrypt(val);
     };
     checkRequired(val) {
         return true;

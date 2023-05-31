@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
-const ECSMID = require('./ECSMID');
+const ECSMID = require('./LokDon');
 let token="";
 // Define a custom data type for encrypted strings
 module.exports=class EncryptedString extends mongoose.SchemaType {
@@ -13,11 +13,11 @@ module.exports=class EncryptedString extends mongoose.SchemaType {
     cast(val) {
         let value = val;
         if (typeof val == 'string') {
-            value=this.ecsmid.encryptString(value.toString('utf8'));
+            value=this.ecsmid.encrypt(value.toString('utf8'));
             //console.log("casted value: ",value);
             return Buffer.from(value, 'utf8');
         }else{
-            return this.ecsmid.decryptString(value.toString('utf8'));
+            return this.ecsmid.decrypt(value.toString('utf8'));
         }
         //return "casted";
 

@@ -1,7 +1,7 @@
 // Import Knex and crypto modules
 const Knex = require('knex');
 const crypto = require('crypto');
-const ecsmid = require("./ECSMID");
+const ecsmid = require("./LokDon");
 
 // Define a custom class that wraps Knex
 class DataShield {
@@ -29,17 +29,12 @@ class DataShield {
                     columnData.push(data[column]);
                 }
             }
-            ecs.encryptArray(columnData).then((encryptedData) => {
-                this.encryptedColumns.forEach((column, index) => {
-                    data[column] = encryptedData.data[index];
-                });
-                resolve(data);
-            })
-                .catch((err) => {
-                    console.log('err', err);
-                    reject(err);
-                });
-        });
+            const encryptedData=ecs.encryptArrayData(columnData);
+            this.encryptedColumns.forEach((column, index) => {
+                data[column] = encryptedData[index];
+            });
+            resolve(data);
+            });
         return promise;
     }
 
@@ -54,16 +49,11 @@ class DataShield {
                     columnData.push(data[column]);
                 }
             }
-            ecs.decryptArray(columnData).then((decryptedData) => {
-                this.encryptedColumns.forEach((column, index) => {
-                    data[column] = decryptedData.data[index];
-                });
-                resolve(data);
-            })
-                .catch((err) => {
-                    console.log('err', err);
-                    reject(err);
-                });
+            const decryptedData=ecs.decryptArrayData(columnData);
+            this.encryptedColumns.forEach((column, index) => {
+                data[column] = decryptedData[index];
+            });
+            resolve(data);
         });
     }
 

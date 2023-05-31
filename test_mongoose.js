@@ -2,14 +2,13 @@
 const DatashieldMongoose=require('./DataShieldMongoose');
 const assert = require('assert');
 // Define a sample schema for objects
-const tempToken="<your-API-token";
+const tempToken="MRgJDi4FYTAlFScDNQJEeRc/dQcrXxYwOzYKPCcrJFQ5NglwDVFqAjUSQzwjMTIA.Gx4OAD5/dg46bzpBOn4fCRQnaQcrQXJEF2goOjwbJhYUJBYBNVFyQzoqWz0iOyAMNRgNfABYaTEqFSMwOn8uBRscIAcpCnY/GBUjEjUCB2gCbQkgOH92JTpsORMaKzhWAgN1AC9Rchs6Kl0vOjkzeQQ5FgE2QWoYOioeOjsrOGwbHgIANHdPMCMVJwA1BDlx.XMS8xKbDq1vCry3DhMSPw4NcxIpBxLTDrcK1wqRE";
 const ds=new DatashieldMongoose(tempToken);
 const SampleSchema = new ds.mongoose.Schema({
-    first_name: ds.EncryptedString,
-    last_name: ds.EncryptedString,
+    name: ds.EncryptedString,
     email: String,
     age: Number,
-    hobbies: [String]
+    hobbies: ds.EncryptedArray
 });
 
 // Create a model for the schema
@@ -118,6 +117,7 @@ console.log('saving travellers, size: '+travellersList.length);
                 assert.equal(travellerFromDB.first_name,traveller.first_name);
                 assert.equal(travellerFromDB.last_name,traveller.last_name);
                 assert.equal(travellerFromDB.gender,traveller.gender);
+                console.log('comparing original/db',traveller.tickets,travellerFromDB.tickets);
                 assert.deepEqual(travellerFromDB.tickets,traveller.tickets);
                 assert.equal(travellerFromDB.age,traveller.age);
             }
