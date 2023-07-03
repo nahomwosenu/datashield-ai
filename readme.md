@@ -233,7 +233,30 @@ userModel.findOne({username: 'user1'})
 
 ```
 
+## Frequently Asked Questions (FAQ):
+### 1. How does datashield work?
+Datashield-AI uses the [LokDon 2048bit keyless quantum-resistant encryption algorithm]('https://lokdon.com) to encrypt your database. Datashield-AI works on row level, which means you can configure it to only encrypt a part of your data or all of your data.
+
+### 2. How does datashield-AI protect my data?
+Datashield-AI first encrypts your data before saving it to the database. It then decrypts the data when you fetch it from the database. This means that your data is always encrypted in the database and only decrypted when you actually need it.
+
+### 3. How does datashield-AI protect my data from hackers?
+Datashield-AI is designed to work with your backend code. This means that your data is encrypted before it is sent to the database. This means that even if a hacker gets direct access to your database, they will not be able to decrypt your data.
+
+### 4. How does datashield-AI protect my data from my own employees?
+Datashield-AI only decrypts data with the same instance you used to encrypt it. This means that even if your employees have access to your database, they will still not be able to decrypt your data.
+
+### 5. How does datashield-AI prevents data leaks and security breaches?
+Datashield-AI becomes your last line of defense against data leaks and security breaches. Datashield-AI ensures that the valuable part of your users' data is stored encrypted in your servers. This means, even if a data leak occurs due to a security breach from the application or network layers, your users' data will still be safe.
+
+
 ## Change logs:
+### Version `1.0.4`
+* fixed bug in encrypting objects
+### Version `1.0.3`
+* added support for encrypted arrays
+* added support for encrypted numbers
+* added support for encrypted objects
 ### Version `1.0.2`
 * added more schema types
 * added qucik-start-guide for mongoose

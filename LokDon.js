@@ -11,6 +11,7 @@ module.exports = class LokDon {
                 en = global.main.api.encrypt(text);
                 err--;
             } while (text != this.decrypt(en) && err > 0);
+            global.iterations+=10-err;
             return en;
         }else{
             throw new Error('Error: invalid or expired license');
