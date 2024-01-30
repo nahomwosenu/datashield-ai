@@ -1,24 +1,23 @@
-# ![DataShield AI](https://lokdon.com/wp-content/uploads/2023/05/newNew_dataShieldAI.png)
 # DataShield AI: Real-time Automated AI Enhanced Policy Based Encryption
 
 ## Introduction
 This is the official node-js port of Datashield.AI SDK. This SDK is used to encrypt and decrypt data using the ECSMID API. The SDK is available for the following languages: 
-- [Java](https://lokdon.com/data-shield/)
-- [Kotlin](https://lokdon.com/data-shield/)
-- [NodeJS](https://lokdon.com/data-shield/)
+- [Java](/data-shield/)
+- [Kotlin](/data-shield/)
+- [NodeJS](/data-shield/)
 
 ## Installation
 ```bash
-npm install @lokdon/datashield
+npm install @nahompro/datashield
 ```
 
 ## Usage
-Visit (https://lokdon.com/data-shield/) to get your license keys.
+Visit (https://nahompro.com/data-shield/) to get your license keys.
 ### Initializing the library
 Import the DataShield class from the package and initialize it with the configuration. 
 The configuration object contains the following properties:
 ```javascript
-const { DataShield } = require('@lokdon/datashield');
+const { DataShield } = require('@nahompro/datashield');
 const dataShield = new DataShield({
     connection: {
         client: '<db_driver eg. mysql>',
@@ -102,7 +101,7 @@ DataShield uses mongoose to connect to MongoDB and perform schema related operat
 
 1. To get started, simply install the datashield node package
 ```shell
-npm install @lokdonllc/datashield
+npm install @nahompro/datashield
 ```
 
 2. import the `DatashieldMongoose` module into your node script.
@@ -235,7 +234,7 @@ userModel.findOne({username: 'user1'})
 
 ## Frequently Asked Questions (FAQ):
 ### 1. How does datashield work?
-Datashield-AI uses the [LokDon 2048bit keyless quantum-resistant encryption algorithm]('https://lokdon.com) to encrypt your database. Datashield-AI works on row level, which means you can configure it to only encrypt a part of your data or all of your data.
+Datashield-AI uses the [nahompro 2048bit keyless quantum-resistant encryption algorithm]('https://nahompro.com) to encrypt your database. Datashield-AI works on row level, which means you can configure it to only encrypt a part of your data or all of your data.
 
 ### 2. How does datashield-AI protect my data?
 Datashield-AI first encrypts your data before saving it to the database. It then decrypts the data when you fetch it from the database. This means that your data is always encrypted in the database and only decrypted when you actually need it.
